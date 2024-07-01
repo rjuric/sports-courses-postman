@@ -38,7 +38,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"roko@example.com\",\n  \"password\": \"strongpassword\"\n}",
+							"raw": "{\n  \"email\": \"roko1@example.com\",\n  \"password\": \"strongpassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,8 +101,8 @@
 								"exec": [
 									"const response = pm.response.json();",
 									"",
-									"const accessToken = response.accessToken;",
-									"const refreshToken = response.refreshToken;",
+									"const accessToken = response.tokens.accessToken;",
+									"const refreshToken = response.tokens.refreshToken;",
 									"",
 									"pm.collectionVariables.set(\"access_token\", accessToken);",
 									"pm.collectionVariables.set(\"refresh_token\", refreshToken);",
@@ -145,6 +145,27 @@
 				},
 				{
 					"name": "Refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"const accessToken = response.accessToken;",
+									"const refreshToken = response.refreshToken;",
+									"",
+									"pm.collectionVariables.set(\"access_token\", accessToken);",
+									"pm.collectionVariables.set(\"refresh_token\", refreshToken);",
+									"",
+									"console.log(\"access_token:\", accessToken)",
+									"console.log(\"refresh_token:\", refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -196,7 +217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"roles\": [0, 1]}",
+							"raw": "{\"roles\": [\"ADMIN\", \"USER\"]}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +225,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/users/7/roles",
+							"raw": "http://localhost:3000/api/users/2/roles",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -213,7 +234,7 @@
 							"path": [
 								"api",
 								"users",
-								"7",
+								"2",
 								"roles"
 							]
 						}
@@ -236,7 +257,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/users/7/",
+							"raw": "http://localhost:3000/api/users/2/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -245,7 +266,7 @@
 							"path": [
 								"api",
 								"users",
-								"7",
+								"2",
 								""
 							]
 						}
@@ -321,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"sport\": \"tennis\",\n    \"description\": \"Rich people sport, very boring to watch tho.\",\n    \"duration\": 90,\n    \"schedule\": [\n        {\n            \"time\": \"14:00\",\n            \"day\": 5\n        }, {\n            \"time\": \"18:30\",\n            \"day\": 3\n        }\n    ]\n}",
+							"raw": "{\n    \"sport\": \"football\",\n    \"description\": \"Rich people sport, very boring to watch tho.\",\n    \"duration\": 90,\n    \"schedule\": [\n        {\n            \"time\": \"14:00\",\n            \"day\": 5\n        }, {\n            \"time\": \"18:30\",\n            \"day\": 3\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -399,7 +420,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/classes/3",
+							"raw": "http://localhost:3000/api/classes/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -408,7 +429,48 @@
 							"path": [
 								"api",
 								"classes",
-								"3"
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply to Class",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"isApplied\": false}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/classes/1/apply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"classes",
+								"1",
+								"apply"
 							]
 						}
 					},
